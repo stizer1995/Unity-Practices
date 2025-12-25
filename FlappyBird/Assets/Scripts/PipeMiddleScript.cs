@@ -1,27 +1,27 @@
 using UnityEngine;
 
-public class PipeMoveScript : MonoBehaviour
+public class PipeMiddleScript : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float deadZone = -21f;
+
     private LogicScript logic;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!logic.birdIsAlive) return;
-        transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+        
+    }
 
-        if (transform.position.x < deadZone)
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            logic.addScore(1);
         }
     }
+
 }

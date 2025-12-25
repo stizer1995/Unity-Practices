@@ -12,6 +12,9 @@ public class Example : MonoBehaviour
 
     public float jumpForce = 10f;
 
+    private LogicScript logic;
+
+
     private void OnEnable()
     {
         InputActions.FindActionMap("Player").Enable();
@@ -26,20 +29,33 @@ public class Example : MonoBehaviour
         
         jumpAction = InputActions.FindAction("Jump");
         rb = GetComponent<Rigidbody2D>();
+        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
 
     }
 
     private void Update()
     {
-       if(jumpAction.WasCompletedThisFrame())
-       {
+        if (!logic.birdIsAlive) return;
+
+        if (jumpAction.WasCompletedThisFrame()){
             Jump();
         }
     }
+
+
 
     public void Jump()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Pipe"))
+        {
+            logic.gameOver();
+         
+        }
     }
 }

@@ -12,14 +12,18 @@ public class PipeSpawnerScript : MonoBehaviour
 
     public float heightOffset = 0f;
 
+    private LogicScript logic;
+
 
     void Start()
     {
         SpawnPipe();
+        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
     void Update()
     {
+        if (!logic.birdIsAlive) return;
         if (timer < spawnRate)
         {
             timer += Time.deltaTime;
