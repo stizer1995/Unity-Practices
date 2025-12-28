@@ -47,13 +47,16 @@ public class Example : MonoBehaviour
     public void Jump()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        
+        AudioManager.instance.PlaySFX(AudioManager.instance.jump, 0.5f);
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Pipe"))
         {
+            rb.angularVelocity = 300f;
+            rb.gravityScale = 4f;
             logic.gameOver();
          
         }
